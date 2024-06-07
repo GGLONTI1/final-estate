@@ -64,7 +64,7 @@ export const login = async (req, res) => {
             .json(userSafeInfo)
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: "Failed to login!" })
+        res.status(500).json({ message: "Failed to create user!" })
     }
 
 }
