@@ -1,8 +1,16 @@
 import Chat from "../../components/chat/Chat";
 import List from "../../components/list/List";
+import apiRequest from "../../lib/apiRequest";
 import "./profilePage.scss";
 
 function ProfilePage() {
+  const handleLogout = async () => {
+    try {
+      await apiRequest.post("/auth/logout")
+    } catch (error) {
+      console.log(error);
+    }
+  }
   return (
     <div className="profilePage">
       <div className="details">
@@ -22,6 +30,7 @@ function ProfilePage() {
             <span>
               Username: <b>John Doe</b>
             </span>
+            <button onClick={handleLogout}>Logout</button>
             <span>
               E-mail: <b>john@gmail.com</b>
             </span>
@@ -39,7 +48,7 @@ function ProfilePage() {
       </div>
       <div className="chatContainer">
         <div className="wrapper">
-          <Chat/>
+          <Chat />
         </div>
       </div>
     </div>

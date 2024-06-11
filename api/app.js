@@ -1,6 +1,8 @@
 import express from "express"
-import authRouter from "./routes/auth.route.js"
 import cors from "cors"
+import cookieParser from "cookie-parser"
+import authRouter from "./routes/auth.route.js"
+import testRouter from "./routes/test.route.js"
 
 
 const app = express()
@@ -8,11 +10,12 @@ const PORT = "5005"
 
 //utilities
 app.use(express.json())
-app.use(cors({ credentials: true }))
+app.use(cors({ origin: "http://localhost:5173", credentials: true }))
+app.use(cookieParser())
 
 //routes
 app.use("/api/auth", authRouter)
-
+app.use("/api/test", testRouter)
 
 
 //server

@@ -1,12 +1,14 @@
-import axios from "axios";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import apiRequest from "../../lib/apiRequest";
 import "./login.scss";
+import { AuthContext } from "../../context/AuthContext";
 
 function Login() {
   const [error, setError] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate()
+  const { updateUser } = useContext(AuthContext)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -18,11 +20,14 @@ function Login() {
       return
     }
     try {
-      const res = await axios.post("http://localhost:5005/api/auth/login", {
+      const res = await apiRequest.post("/auth/login", {
         username,
         password,
       })
       setError(res.data.message)
+
+      updateUser(res.data)
+
       setTimeout(() => {
         navigate("/")
       }, 2000)
