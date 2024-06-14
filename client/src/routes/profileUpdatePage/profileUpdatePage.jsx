@@ -1,14 +1,34 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext"
+import apiRequest from "../../lib/apiRequest";
 import "./profileUpdatePage.scss";
 
 function ProfileUpdatePage() {
-  const { currentUser } = useContext(AuthContext)
+  const [error, setError] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
+  const { currentUser, updateUser } = useContext(AuthContext)
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
+    setError("")
+    setIsLoading(true)
     const inputs = Object.fromEntries(new FormData(e.target))
-    console.log(inputs);
+    const { newPassword, currentPassword, username, email } = inputs
+    try {
+      const updatedUser = await apiRequest.put("/users/" + currentUser.id, {
+        currentPassword,
+        newPassword,
+        username,
+        email,
+      })
+      setError("Update Succesfully!")
+      updateUser(updatedUser.data)
+    } catch (error) {
+      console.log(error.response.data.message);
+      setError(error.response.data.message)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -34,10 +54,17 @@ function ProfileUpdatePage() {
             />
           </div>
           <div className="item">
-            <label htmlFor="password">Password</label>
-            <input id="password" name="password" type="password" />
+            <label htmlFor="currentPassword">Current Password</label>
+            <input id="currentPassword" name="currentPassword" type="password" />
           </div>
-          <button>Update</button>
+          <div className="item">
+            <label htmlFor="newPassword">New Password</label>
+            <input id="newPassword" name="newPassword" type="password" />
+          </div>
+          {error && <span>{error}</span>}
+          <button disabled={isLoading}>
+            {isLoading ? "Loading..." : "Update"}
+          </button>
         </form>
       </div>
       <div className="sideContainer">
