@@ -15,7 +15,7 @@ app.use(cors({ origin: "http://localhost:5173", credentials: true }))
 app.use(cookieParser())
 
 //routes
-app.use("/api/auth", authRouter)
+app.use("/api/auth",  authRouter)
 app.use("/api/users", userRouter)
 app.use("/api/test", testRouter)
 
