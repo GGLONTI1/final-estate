@@ -9,9 +9,21 @@ datasource db {
 
 model User {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  username  String @unique
-  email     String @unique
-  password  String  
-  avatar    String?   
+  username  String   @unique
+  email     String   @unique
+  password  String
+  avatar    String?
+  createdAt DateTime @default(now())
+}
+
+model Post {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  title     String   @unique
+  price     Int
+  img       String
+  address   String
+  city      String
+  latitude  String
+  longitude String
   createdAt DateTime @default(now())
 }

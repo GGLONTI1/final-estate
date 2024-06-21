@@ -57,7 +57,7 @@ export const updateUser = async (req, res) => {
         if (!isPasswordCorrect) return res.status(403).json({ message: "Not Authorised!" })
 
         //hash new password
-        
+
         let hashedPassword = null
         if (newPassword) {
             hashedPassword = await bcrypt.hash(newPassword, 10)
@@ -72,7 +72,7 @@ export const updateUser = async (req, res) => {
             data: {
                 username,
                 email,
-                ...(avatar && avatar),
+                ...(avatar && { avatar }),
                 ...(hashedPassword && { password: hashedPassword })
             }
         })

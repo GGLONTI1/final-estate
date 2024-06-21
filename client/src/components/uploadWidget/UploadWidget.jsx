@@ -52,6 +52,10 @@ function UploadWidget({ uwConfig, setAvatar }) {
                 id="upload_widget"
                 className="cloudinary-button"
                 onClick={initializeCloudinaryWidget}
+                style={{
+                    background: "teal",
+                    border: "none"
+                }}
             >
                 Upload
             </button>
