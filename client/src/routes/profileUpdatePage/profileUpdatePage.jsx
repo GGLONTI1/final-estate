@@ -2,14 +2,17 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext"
 import apiRequest from "../../lib/apiRequest";
 import "./profileUpdatePage.scss";
+import UploadWidget from "../../components/uploadWidget/UploadWidget";
 
 function ProfileUpdatePage() {
   const [error, setError] = useState("")
   const [isLoading, setIsLoading] = useState(false)
+  const [avatar, setAvatar] = useState("")
   const { currentUser, updateUser } = useContext(AuthContext)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+
     setError("")
     setIsLoading(true)
     const inputs = Object.fromEntries(new FormData(e.target))
@@ -20,6 +23,7 @@ function ProfileUpdatePage() {
         newPassword,
         username,
         email,
+        avatar,
       })
       setError("Update Succesfully!")
       updateUser(updatedUser.data)
@@ -68,8 +72,22 @@ function ProfileUpdatePage() {
         </form>
       </div>
       <div className="sideContainer">
-        <img src="" alt="" className="avatar" />
+        <img src={avatar || currentUser.avatar || "/noavatar.png"} alt="" className="avatar"
+
+
+        />
+        <UploadWidget
+          uwConfig={{
+            cloudName: "gglonti",
+            uploadPreset: "final_estate",
+            multiple: false,
+            maxImageFileSize: 2000000,
+            folder: "avatars",
+          }}
+          setAvatar={setAvatar}
+        />
       </div>
+
     </div>
   );
 }
