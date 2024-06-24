@@ -2,6 +2,7 @@ import express from "express"
 import cors from "cors"
 import cookieParser from "cookie-parser"
 import authRouter from "./routes/auth.route.js"
+import postRoute from "./routes/post.route.js"
 import testRouter from "./routes/test.route.js"
 import userRouter from "./routes/user.route.js"
 
@@ -15,8 +16,9 @@ app.use(cors({ origin: "http://localhost:5173", credentials: true }))
 app.use(cookieParser())
 
 //routes
-app.use("/api/auth",  authRouter)
+app.use("/api/auth", authRouter)
 app.use("/api/users", userRouter)
+app.use("/api/posts", postRoute)
 app.use("/api/test", testRouter)
 
 
